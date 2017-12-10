@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "explorer",
+    "password": "passw0rd123",
+    "database": "explorer",
+    "dialect": "mysql",
+    "define": {
+      "charset": "utf8",
+      "collate": "utf8_general_ci",
+      "timestamps": true
+    }
+  }
+}
