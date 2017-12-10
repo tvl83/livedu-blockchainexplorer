@@ -6,6 +6,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
     "sequelize": "^4.25.1"
   },
   "scripts": {
@@ -13,6 +14,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "DEBUG=express-sequelize nodemon ./server/bin/www"
+    "server": "DEBUG=express-sequelize nodemon ./bin/www"
   }
 }
