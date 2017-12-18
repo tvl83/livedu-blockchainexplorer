@@ -4,8 +4,12 @@ module.exports = function (sequelize, DataTypes) {
     n: DataTypes.INTEGER,
     scriptPubKey: DataTypes.STRING,
     type: DataTypes.STRING,
-    raw: DataTypes.STRING
+    raw: DataTypes.TEXT
   });
+  // Vouts.associate = function(models){
+  //   Vouts.belongsTo(models.txs, {as: 'TransactionId'});
+  //   Vouts.belongsTo(models.addresses);
+  // }
 
   return Vouts;
 }
