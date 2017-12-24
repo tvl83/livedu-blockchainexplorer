@@ -41,7 +41,7 @@ If you want to set up a VPS then you can use either of these referral codes. The
 [https://github.com/creationix/nvm](https://github.com/creationix/nvm)
 [https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps)
 
-#### Week 1 - Session 2
+#### **Week 1 - Session 2**
 
 * Choose which coin (younger coin is easier, less blocks)
 * Setting up our DB Schema
@@ -85,6 +85,8 @@ Agenda: [https://docs.google.com/document/d/1BZyn3yNP9kmOSkglTcGSIXS3wc56UTDwKMu
 * Make sure all relationships work
 * Build ledger for a given address.
 
+* Fixes
+    * {force:true} in sync function in www file
 #### Miscellany
 
 **_Frameworks/Libraries:_**

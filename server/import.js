@@ -5,10 +5,10 @@ const config = require('./config/lasvegascoind.json');
 const sqlconfig = require('./config/config.json')["development"];
 let models = require('./models');
 
-let Block = models.blocks;
-let Tx = models.txs;
-let Vin = models.vins;
-let Vout = models.vouts;
+let Block = models.block;
+let Tx = models.tx;
+let Vin = models.vin;
+let Vout = models.vout;
 
 // console.log(`models:`, models);
 
@@ -160,7 +160,7 @@ async function getTransaction(txid, block) {
 			});
 
 			transaction.then(tx => {
-				block.setTxs([tx]);
+				block.setTxes([tx]);
 
 				tx.forEach(tx => {
 					let vins = tx.dataValues.vin;

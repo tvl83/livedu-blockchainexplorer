@@ -10,8 +10,13 @@ module.exports = function (sequelize, DataTypes) {
   Tx.associate = function(models){
     Tx.hasMany(models.vin, { as: 'Vin', foreign: 'vinId'});
     // Txs.hasMany(models.vouts);
-    Tx.belongsTo(models.block)
-  }
+    // Tx.hasMany(models.block, {as: 'Blocks', through: 'block_txes', foreignKey: 'blockId'})
+    Tx.belongsTo(models.block,
+      {
+        unique:false
+      }
+    );
+  };
 
   return Tx;
-}
+};
