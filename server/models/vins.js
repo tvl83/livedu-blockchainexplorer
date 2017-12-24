@@ -1,14 +1,14 @@
 module.exports = function (sequelize, DataTypes) {
-  let Vins = sequelize.define('vins', {
+  let Vin = sequelize.define('vin', {
     transactionId: DataTypes.STRING,
     vout: DataTypes.INTEGER,
     raw: DataTypes.TEXT
   });
 
-  Vins.associate = function(models){
-    Vins.belongsTo(models.txs);
+  Vin.associate = function(models){
+    Vin.belongsTo(models.tx);
     // Vins.belongsTo(models.addresses, { as: 'Address', through: 'address_vins', foreignKey: 'vinId'});
   }
 
-  return Vins;
+  return Vin;
 }

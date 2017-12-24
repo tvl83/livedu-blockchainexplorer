@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  let Blocks = sequelize.define('blocks', {
+  let Block = sequelize.define('block', {
     hash: {type: DataTypes.STRING, unique: true},
     confirmations: DataTypes.INTEGER,
     size: DataTypes.INTEGER,
@@ -11,9 +11,9 @@ module.exports = function (sequelize, DataTypes) {
     raw: DataTypes.TEXT
   });
 
-  Blocks.associate = function(models){
-    Blocks.hasMany(models.txs, {as: 'Txs'});
+  Block.associate = function(models){
+    Block.hasMany(models.tx, {as: 'Tx'});
   }
 
-  return Blocks;
+  return Block;
 }

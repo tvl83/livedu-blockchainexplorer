@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  let Vouts = sequelize.define('vouts', {
+  let Vout = sequelize.define('vout', {
     value: DataTypes.INTEGER,
     n: DataTypes.INTEGER,
     scriptPubKey: DataTypes.STRING,
@@ -11,5 +11,5 @@ module.exports = function (sequelize, DataTypes) {
   //   Vouts.belongsTo(models.addresses);
   // }
 
-  return Vouts;
+  return Vout;
 }
