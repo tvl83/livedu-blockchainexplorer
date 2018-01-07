@@ -9,6 +9,7 @@ let Block = models.block;
 let Tx = models.tx;
 let Vin = models.vin;
 let Vout = models.vout;
+let Address = models.address;
 
 // console.log(`models:`, models);
 
@@ -154,6 +155,7 @@ async function getTransaction(txid, block) {
 		else {
 			let transaction = Tx.create({
 				txid: tx.txid,
+				height: block.dataValues.height,
 				blockhash: tx.blockhash,
 				time: tx.time,
 				raw: JSON.stringify(tx)
@@ -162,32 +164,99 @@ async function getTransaction(txid, block) {
 			transaction.then(tx => {
 				block.setTxes([tx]);
 
-				tx.forEach(tx => {
-					let vins = tx.dataValues.vin;
-					let vouts = tx.dataValues.vout;
+				let rawTx = JSON.parse(tx.dataValues.raw);
+				console.log(rawTx);
+				rawTx.vin.forEach(vin => {
+					let thisVin = Vin.create({
+						raw: JSON.stringify(vin)
+					});
 
-					console.log("TX:", tx);
-				})
-				// vins.forEach(vin => {
-				// 	let thisVin = Vin.create({
-				// 		transactionId: tx.dataValues.txid,
-				// 		raw: JSON.stringify(vin)
-				// 	});
-				//
-				// 	thisVin
-				// 		.then(vinRow => {
-				// 			if (vin.vout !== undefined) {
-				// 				return vinRow.update({
-				// 					vout: vin.vout
-				// 				})
-				// 			} else {
-				// 				return vinRow;
-				// 			}
-				// 		})
-				// 		.then(vinRow => {
-				// 			tx.setVins([vinRow])
-				// 		})
-				// })
+					thisVin
+						.then(vinRow => {
+							// console.log("----------------------vinRow--------------------", vinRow);
+							let thisVinRow = JSON.parse(vinRow.dataValues.raw);
+							// console.log("----------------------vinRow--------------------", thisVinRow);
+							if (thisVinRow.vout !== undefined) {
+								let vin = JSON.parse(vinRow.raw);
+								// console.log("----------------------vin--------------------", vin);
+								vinRow.update({
+									transactionId: vin.txid,
+									vout: vin.vout
+								}).then(updatedVin => {
+									tx.setVin([updatedVin]);
+
+									console.log("----------------------updatedVin.dataValues--------------------", updatedVin.dataValues.raw);
+									console.log("Parsing updatedVin.dataValues.raw");
+									let updatedVinRow = JSON.parse(updatedVin.dataValues.raw);
+									// console.log("----------------------updatedVinRow.txid--------------------", updatedVinRow.txid);
+									if (updatedVinRow.txid !== undefined) {
+										console.log("----------------------updatedVinRow.txid--------------------", updatedVinRow.txid);
+										Tx.findOne({
+											where: {
+												txid: updatedVinRow.txid
+											}
+										}).then(tx => {
+											console.log("----------------------tx--------------------", tx);
+											console.log("Parsing tx.dataValues.raw");
+											console.log("----------------------tx.dataValues.raw--------------------", tx.dataValues.raw);
+											let parsedTx = JSON.parse(tx.dataValues.raw);
+											console.log("----------------------parsedTx--------------------", parsedTx);
+											let vouts = parsedTx.vout;
+											console.log("----------------------vouts--------------------", vouts);
+
+											vouts.forEach(vout => {
+												console.log("----------------------vout.n--------------------", vout.n);
+												console.log("----------------------updatedVinRow.vout--------------------", updatedVinRow.vout);
+												if (vout.n === updatedVinRow.vout) {
+													let address = vout.scriptPubKey.addresses[0];
+													console.log("----------------------address--------------------", address);
+													Address.findOne({
+														where: {
+															address: address
+														}
+													}).then(address => {
+														console.log("Setting Address on vin");
+														updatedVin.setAddress(address);
+													})
+												}
+											})
+										})
+									}
+								})
+							} else {
+								return vinRow;
+							}
+						})
+						.then(vinRow => {
+							tx.setVin([vinRow])
+						})
+				});
+
+				rawTx.vout.forEach(vout => {
+					let thisVout = Vout.create({
+						height: tx.height,
+						value: vout.value,
+						n: vout.n,
+						scriptPubKey: JSON.stringify(vout.scriptPubKey),
+						type: vout.scriptPubKey.type,
+						raw: JSON.stringify(vout)
+					}).then(voutRow => {
+						tx.setVout([voutRow]);
+						let vout = voutRow.dataValues;
+						let scriptPubKey = JSON.parse(vout.scriptPubKey);
+						if (scriptPubKey.addresses !== undefined) {
+							let address = scriptPubKey.addresses[0];
+							Address.findOrCreate({
+								where: {
+									address: address
+								}
+							})
+								.spread((address, created) => {
+									address.setVouts([voutRow])
+								})
+						}
+					})
+				});
 			});
 		}
 	});

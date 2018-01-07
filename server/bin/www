@@ -3,11 +3,16 @@
 /**
  * Module dependencies.
  */
-
+let coinwallet = require('node-altcoin')();
+const config = require('../config/lasvegascoind.json');
 var app = require('../app');
 var debug = require('debug')('express-sequelize');
 var http = require('http');
 var models = require('../models');
+
+coinwallet.set('user', config.walletusername);
+coinwallet.set('pass', config.walletpassword);
+coinwallet.set({port: config.walletport});
 
 /**
  * Get port from environment and store in Express.
@@ -24,12 +29,17 @@ models.sequelize.sync({force:true}).then(function() {
   /**
    * Listen on provided port, on all network interfaces.
    */
+
+  getBlocks(1,500);
+
   server.listen(port, function() {
     debug('Express server listening on port ' + server.address().port);
   });
   server.on('error', onError);
   server.on('listening', onListening);
 });
+
+
 
 /**
  * Normalize a port into a number, string, or false.
@@ -89,4 +99,58 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+async function getBlocks(start, end) {
+	let blocks = [];
+	for (let i = start; i <= end; i++) {
+		try {
+			blocks.push(await getBlockHash(i));
+			// let block = await getBlock(hash);
+		} catch (e) {
+			console.log(`error calling getBlockHash(${i})`);
+      console.log(e);
+		}
+	}
+	Promise.all(blocks)
+		.then(block => {
+			console.log("DONE!");
+		})
+}
+
+async function getBlockHash(height) {
+	console.log(`getBlockHash->height: ${height}`);
+	coinwallet.exec('getBlockHash', height, async function (err, blockhash) {
+		if (err)
+			throw err;
+		try {
+			return await getBlock(blockhash);
+		} catch (e) {
+			console.log(`e: `, e);
+		}
+	})
+}
+
+async function getBlock(hash) {
+	// console.log(`getBlock->hash: ${hash}`);
+	coinwallet.exec('getBlock', hash, function (err, block) {
+		if (err)
+			throw err;
+		else {
+			// console.log(`block`, block);
+			models.block.create({
+				hash: block.hash,
+				confirmations: block.confirmations,
+				size: block.size,
+				height: block.height,
+				time: block.time,
+				difficulty: block.difficulty,
+				nextblockhash: block.nextblockhash,
+				previousblockhash: block.previousblockhash,
+				raw: JSON.stringify(block)
+			})
+
+			return block;
+		}
+	})
 }

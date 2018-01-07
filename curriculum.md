@@ -87,6 +87,11 @@ Agenda: [https://docs.google.com/document/d/1BZyn3yNP9kmOSkglTcGSIXS3wc56UTDwKMu
 
 * Fixes
     * {force:true} in sync function in www file
+
+Notes for next stream:
+Figure out why some TXIDs are not in the database. We have 500 blocks but a txid from block 253 is not in the database `txid: 3568c9f67fc0d24451f884a314232ec428512f659f181088bbda78621d04dfc8`
+
+
 #### Miscellany
 
 **_Frameworks/Libraries:_**

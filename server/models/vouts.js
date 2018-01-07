@@ -1,15 +1,16 @@
 module.exports = function (sequelize, DataTypes) {
   let Vout = sequelize.define('vout', {
+    height: DataTypes.INTEGER,
     value: DataTypes.INTEGER,
     n: DataTypes.INTEGER,
-    scriptPubKey: DataTypes.STRING,
+    scriptPubKey: DataTypes.TEXT,
     type: DataTypes.STRING,
     raw: DataTypes.TEXT
   });
-  // Vouts.associate = function(models){
-  //   Vouts.belongsTo(models.txs, {as: 'TransactionId'});
-  //   Vouts.belongsTo(models.addresses);
-  // }
+  Vout.associate = function(models){
+    Vout.belongsTo(models.tx, { unique:false });
+    Vout.belongsTo(models.address, { unique:false } );
+  }
 
   return Vout;
 }

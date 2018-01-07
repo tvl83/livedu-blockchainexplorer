@@ -5,9 +5,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Address.associate = function(models){
-    Address.belongsToMany(models.vin, { as: 'LedgerOut', through: 'address_ledgerout', foreignKey: 'addressId'});
-    Address.belongsToMany(models.vout, { as: 'LedgerIn', through: 'address_ledgerin', foreignKey: 'addressId'});
-  }
+    Address.hasMany(models.vin);
+    Address.hasMany(models.vout);
+  } 
 
   return Address;
 }

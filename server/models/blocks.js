@@ -1,5 +1,4 @@
 module.exports = function (sequelize, DataTypes) {
-
   let Block = sequelize.define('block', {
     hash: {type: DataTypes.STRING, unique: true},
     confirmations: DataTypes.INTEGER,

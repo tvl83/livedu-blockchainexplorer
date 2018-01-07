@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
 
   Vin.associate = function(models){
     Vin.belongsTo(models.tx);
-    // Vins.belongsTo(models.addresses, { as: 'Address', through: 'address_vins', foreignKey: 'vinId'});
+    Vin.belongsTo(models.address, { unique:false } );
   }
 
   return Vin;
