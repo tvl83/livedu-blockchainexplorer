@@ -1,6 +1,6 @@
 Github repo: [https://github.com/tvl83/livedu-blockchainexplorer](https://github.com/tvl83/livedu-blockchainexplorer)
 
-#### **Week 1 - Session 1:** Setting-up the Environment
+#### **Session 1 - Hour 1:** Setting-up the Environment
 ##### December 3, 2017
 [https://docs.google.com/document/d/12VjO6vu4Oq3XacUD6ftSMMz_rGu98GHsnfrBbLQSVHA/edit?usp=sharing](https://docs.google.com/document/d/12VjO6vu4Oq3XacUD6ftSMMz_rGu98GHsnfrBbLQSVHA/edit?usp=sharing)
 
@@ -41,7 +41,7 @@ If you want to set up a VPS then you can use either of these referral codes. The
 [https://github.com/creationix/nvm](https://github.com/creationix/nvm)
 [https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps)
 
-#### **Week 1 - Session 2**
+#### **Session 1 Hour 2**
 
 * Choose which coin (younger coin is easier, less blocks)
 * Setting up our DB Schema
@@ -52,7 +52,7 @@ If you want to set up a VPS then you can use either of these referral codes. The
  * Set up ReactJS and some basic components and layout
 * Get data displayed on screen from db
 
-#### **Week 2**
+#### **Session 2**
 ##### December 10, 2017
 Agenda: [https://docs.google.com/document/d/1w5vA6Jxq-m5Tx-_bf-l1CRE9UIiVa3I0EINiiFTab4M/edit?usp=sharing](https://docs.google.com/document/d/1w5vA6Jxq-m5Tx-_bf-l1CRE9UIiVa3I0EINiiFTab4M/edit?usp=sharing)
 
@@ -62,7 +62,7 @@ Agenda: [https://docs.google.com/document/d/1w5vA6Jxq-m5Tx-_bf-l1CRE9UIiVa3I0EIN
 * Extract info from wallet to database
 * Use express endpoints to retrieve that data
 
-#### **Week 3**
+#### **Session 3**
 ##### December 17, 2017
 Agenda: [https://docs.google.com/document/d/1-A22NTehPzjJNFhPwm45NbFfGjS4h-ASA8pkWiopksA/edit?usp=sharing](https://docs.google.com/document/d/1-A22NTehPzjJNFhPwm45NbFfGjS4h-ASA8pkWiopksA/edit?usp=sharing)
 * Fix path problem in phpMyAdmin
@@ -74,7 +74,7 @@ Agenda: [https://docs.google.com/document/d/1-A22NTehPzjJNFhPwm45NbFfGjS4h-ASA8p
 * Loop over ~100-500 blocks to import that data to the db
 * ~~Start displaying the data on the site~~
 
-#### **Week 4**
+#### **Session 4**
 ##### December 24, 2017
 Agenda: [https://docs.google.com/document/d/1BZyn3yNP9kmOSkglTcGSIXS3wc56UTDwKMuvL9VOcKY/edit?usp=sharing](https://docs.google.com/document/d/1BZyn3yNP9kmOSkglTcGSIXS3wc56UTDwKMuvL9VOcKY/edit?usp=sharing)
 
@@ -88,9 +88,33 @@ Agenda: [https://docs.google.com/document/d/1BZyn3yNP9kmOSkglTcGSIXS3wc56UTDwKMu
 * Fixes
     * {force:true} in sync function in www file
 
-Notes for next stream:
-Figure out why some TXIDs are not in the database. We have 500 blocks but a txid from block 253 is not in the database `txid: 3568c9f67fc0d24451f884a314232ec428512f659f181088bbda78621d04dfc8`
+#### **Session 5**
+##### January 7, 2018
 
+* Worked on linking vins to addresses
+* Changed setting to auto nuke db on save so that iterations are quicker
+* On every save and upload it clears db and then populates the db with 500 blocks
+* Worked on linking blocks to
+
+#### **Session 6**
+##### February 4, 2018
+
+* Figured out that vins and vouts are linking properly
+* Next stream we need to slow down the processing of transactions.
+  * Going from block 1 - 253 or higher causes issues in adding information to the database.
+  * If I only do blocks 1 - 252 and then do block 253 separately and by itself there are no errors
+
+~~Notes for next stream:
+Figure out why some TXIDs are not in the database.
+We have 500 blocks but a txid from block 253 is not in the database `txid: 3568c9f67fc0d24451f884a314232ec428512f659f181088bbda78621d04dfc8`~~
+
+#### **Session 7**
+##### February 11, 2018
+
+Agenda:
+* Verify things are going into the db properly
+* Start on the ReactJS side of things to bring the data onto a web page view
+* Plan out features we want to include.
 
 #### Miscellany
 
