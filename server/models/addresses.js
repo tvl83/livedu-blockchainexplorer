@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
   Address.associate = function(models){
     Address.hasMany(models.vin);
     Address.hasMany(models.vout);
-  } 
+  } ;
 
   return Address;
-}
+};

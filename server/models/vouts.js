@@ -1,7 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
   let Vout = sequelize.define('vout', {
     height: DataTypes.INTEGER,
-    value: DataTypes.INTEGER,
+    value: DataTypes.FLOAT,
     n: DataTypes.INTEGER,
     scriptPubKey: DataTypes.TEXT,
     type: DataTypes.STRING,

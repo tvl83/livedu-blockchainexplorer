@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
     height: DataTypes.INTEGER,
     blockhash: DataTypes.STRING,
     time: DataTypes.INTEGER,
-    raw: DataTypes.TEXT
+    raw: DataTypes.TEXT('medium')
   });
 
   Tx.associate = function(models){

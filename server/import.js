@@ -108,7 +108,7 @@ async function getBlock(hash) {
 				nextblockhash: block.nextblockhash,
 				previousblockhash: block.previousblockhash,
 				raw: JSON.stringify(block)
-			})
+			});
 
 			return block;
 		}
@@ -166,6 +166,34 @@ async function getTransaction(txid, block) {
 
 				let rawTx = JSON.parse(tx.dataValues.raw);
 				console.log(rawTx);
+
+				rawTx.vout.forEach(vout => {
+					Vout.create({
+						height: tx.height,
+						value: vout.value,
+						n: vout.n,
+						scriptPubKey: JSON.stringify(vout.scriptPubKey),
+						type: vout.scriptPubKey.type,
+						raw: JSON.stringify(vout)
+					}).then(voutRow => {
+						tx.setVout([voutRow]);
+						let vout = voutRow.dataValues;
+						let scriptPubKey = JSON.parse(vout.scriptPubKey);
+						if (scriptPubKey.addresses !== undefined) {
+							let address = scriptPubKey.addresses[0];
+							Address.findOrCreate({
+								where: {
+									address: address
+								}
+							})
+								.spread((address, created) => {
+									console.log(`address created: `, address.dataValues.address);
+									address.setVouts([voutRow])
+								})
+						}
+					})
+				});
+
 				rawTx.vin.forEach(vin => {
 					let thisVin = Vin.create({
 						raw: JSON.stringify(vin)
@@ -230,32 +258,6 @@ async function getTransaction(txid, block) {
 						.then(vinRow => {
 							tx.setVin([vinRow])
 						})
-				});
-
-				rawTx.vout.forEach(vout => {
-					let thisVout = Vout.create({
-						height: tx.height,
-						value: vout.value,
-						n: vout.n,
-						scriptPubKey: JSON.stringify(vout.scriptPubKey),
-						type: vout.scriptPubKey.type,
-						raw: JSON.stringify(vout)
-					}).then(voutRow => {
-						tx.setVout([voutRow]);
-						let vout = voutRow.dataValues;
-						let scriptPubKey = JSON.parse(vout.scriptPubKey);
-						if (scriptPubKey.addresses !== undefined) {
-							let address = scriptPubKey.addresses[0];
-							Address.findOrCreate({
-								where: {
-									address: address
-								}
-							})
-								.spread((address, created) => {
-									address.setVouts([voutRow])
-								})
-						}
-					})
 				});
 			});
 		}
