@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
+    "node-altcoin": "^0.1.2",
     "optimist": "^0.6.1",
     "sequelize": "^4.25.1"
   },
@@ -15,6 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "DEBUG=express-sequelize nodemon ./bin/www"
+    "server": "DEBUG=express-sequelize nodemon ./bin/www",
+    "api": "nodemon api.js 0.0.0.0 3001"
   }
 }

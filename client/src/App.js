@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Grid} from 'react-bootstrap';
 import './App.css';
+import TickerPanels from "./components/TickerPanels";
+import Heading from "./components/Heading";
+import DataPanels from "./components/DataPanels";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Blockchain Explorer!</h1>
-        </header>
-      </div>
+      <Grid>
+        <Heading />
+        <TickerPanels/>
+        <DataPanels/>
+      </Grid>
     );
   }
 }
